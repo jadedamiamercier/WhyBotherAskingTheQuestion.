@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Animation</title>
+    <!-- Inclure la bibliothèque p5.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: black; /* Couleur de fond */
+        }
+        canvas {
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        let phrases = [
+            "Would", "I", "chase", "it?", "Why", "bother", "asking", "the", "question.",
+            "Do", "I", "love", "her?", "Why", "bother", "asking", "the", "question.",
+            "Would", "I", "die", "for", "it?", "Why", "bother", "asking", "the", "question.",
+            "Do", "I", "dream", "of", "a", "future", "with", "her?", "Why", "bother", "asking", "the", "question.",
+            "Would", "I", "change", "anything?", "Why", "bother", "asking", "the", "question.",
+            "Am", "I", "proud", "of", "her?", "Why", "bother", "asking", "the", "question?",
+            "Is", "this", "the", "happiest", "I’ve", "been", "in", "my", "life?",
+            "Why", "bother", "asking", "the", "fucking", "question."
+        ];
+
+        let index = 0;
+        let lastX = -100;
+        let lastY = -100;
+
+        function setup() {
+            createCanvas(windowWidth, windowHeight); // Adapter la taille du canevas à l'écran
+            background(0);
+            textSize(16);
+            fill(255); // Couleur de texte par défaut : blanc
+        }
+
+        function draw() {
+            // Laisser le fond noir pour ne pas effacer les mots affichés
+        }
+
+        function touchMoved() {
+            if (index < phrases.length) {
+                let distance = dist(touches[0].x, touches[0].y, lastX, lastY);
+                if (distance > 50) { // Distance minimum avant d'ajouter un nouveau mot
+                    let word = phrases[index];
+
+                    // Vérifier si le mot fait partie de "Why bother asking the question."
+                    if (word === "Why" || word === "bother" || word === "asking" || word === "the" || word === "question.") {
+                        fill(173, 216, 230); // Bleu clair
+                    } else {
+                        fill(255); // Blanc
+                    }
+
+                    text(word, touches[0].x, touches[0].y);
+                    index++;
+
+                    // Enregistrer la position pour le prochain mot
+                    lastX = touches[0].x;
+                    lastY = touches[0].y;
+                }
+            }
+            return false; // Empêche le scrolling sur mobile
+        }
+
+        function windowResized() {
+            resizeCanvas(windowWidth, windowHeight); // Réajuster le canevas si la fenêtre est redimensionnée
+        }
+    </script>
+</body>
+</html>
